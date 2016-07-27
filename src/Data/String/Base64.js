@@ -1,7 +1,7 @@
 "use strict";
 
-exports.atobIsDefined = typeof atob === "function";
-exports.btoaIsDefined = typeof btoa === "function";
+var atobIsDefined = typeof atob === "function";
+var btoaIsDefined = typeof btoa === "function";
 
 // This function converts a `Uint8Array` to a btoa-safe string.
 // It does so by treating each byte as a Unicode code point value and by
@@ -9,7 +9,7 @@ exports.btoaIsDefined = typeof btoa === "function";
 // This means that e.g. a three-byte UTF-8 character is mapped to three
 // different characters with code points between 0 .. U+00FF.
 // This is also the reason why `String.fromCharCode` is perfectly safe here.
-exports.uint8ArrayToBtoaSafeString = function (u8) {
+function uint8ArrayToBtoaSafeString (u8) {
   var chunkSize = 0x8000; // Chunk size used for reading large arrays
   var cs = [];
 
@@ -21,14 +21,14 @@ exports.uint8ArrayToBtoaSafeString = function (u8) {
 };
 
 // Encode a string to its Base64 representation using Node's `Buffer` API
-exports.encodeNode = function (str) {
+function encodeNode (str) {
   var base64EncodedString = Buffer.from(str).toString("base64");
 
   return base64EncodedString;
 };
 
 // Decode a Base64-encoded string using Node's `Buffer` API
-exports._decodeNode = function (Left, Right, str) {
+function _decodeNode (Left, Right, str) {
   var result;
 
   // Check that the input string is a valid Base64-encoded string as Node.js
@@ -53,7 +53,7 @@ exports._decodeNode = function (Left, Right, str) {
   return result;
 };
 
-exports._atob = function (Left, Right, str) {
+function _atob (Left, Right, str) {
   var result;
 
   try {
@@ -66,7 +66,7 @@ exports._atob = function (Left, Right, str) {
   return result;
 };
 
-exports._btoa = function (Left, Right, str) {
+function _btoa (Left, Right, str) {
   var result;
 
   try {
@@ -78,3 +78,11 @@ exports._btoa = function (Left, Right, str) {
 
   return result;
 };
+
+exports.atobIsDefined              = atobIsDefined;
+exports.btoaIsDefined              = btoaIsDefined;
+exports.uint8ArrayToBtoaSafeString = uint8ArrayToBtoaSafeString;
+exports.encodeNode                 = encodeNode;
+exports._decodeNode                = _decodeNode;
+exports._atob                      = _atob;
+exports._btoa                      = _btoa;

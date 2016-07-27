@@ -1,0 +1,40 @@
+{
+  "name": "purescript-b64",
+  "description": "Unicode-aware Base64 encoding and decoding",
+  "authors": [
+    "Andreas Schacker"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/menelaos/purescript-b64"
+  },
+  "keywords": [
+    "Base64",
+    "btoa",
+    "atob"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^1.0.1",
+    "purescript-exceptions": "^1.0.0",
+    "purescript-arraybuffer-types": "^0.2.0",
+    "purescript-stringutils": "^0.0.3",
+    "purescript-either": "^1.0.0",
+    "purescript-functions": "^1.0.0",
+    "purescript-encoding": "^0.0.1",
+    "purescript-typedarray": "^1.0.0",
+    "purescript-partial": "^1.1.2"
+  },
+  "devDependencies": {
+    "purescript-console": "^1.0.0",
+    "purescript-strongcheck": "^1.1.1",
+    "purescript-unicode": "^1.0.0"
+  }
+}

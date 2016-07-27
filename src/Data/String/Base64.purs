@@ -28,7 +28,7 @@ import Prelude
 -- | -- "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6"
 -- | ```
 {-
-  This works as follows:
+  Basically this works as follows:
   Suppose you have a string: "∀ a"
   The following table shows the individual characters, their code points
   and their UTF-8 representation.
@@ -40,9 +40,8 @@ import Prelude
   a      97         u+0061     61            01100001
   ---------------------------------------------------------------------
 
-  In a first step, the string is converted to its UTF-8 representation
-  via `encodeUtf8`. After that, each individual byte is mapped to a
-  (btoa-safe) character via `uint8ArrayToBtoaSafeString`.
+  In a first step, the string is converted to its UTF-8 representation.
+  After that, each individual byte is mapped to a (btoa-safe) character.
 
   Representation   |------------ ∀ -------------|     <SP>        a
   ---------------------------------------------------------------------
@@ -58,10 +57,16 @@ import Prelude
 -}
 encode :: String -> String
 encode str =
-  unsafePartial
-    (fromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str))
+  if btoaIsDefined
+    then
+      unsafePartial
+        (fromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str))
+    else
+      encodeNode str
 
+foreign import btoaIsDefined :: Boolean
 foreign import uint8ArrayToBtoaSafeString :: Uint8Array -> String
+foreign import encodeNode :: String -> String
 
 -- | Encode a `String` to a URL-safe Base64 representation.
 -- |
@@ -113,7 +118,20 @@ foreign import _btoa ::
 -- | ```
 decode :: String -> Either Error String
 decode str =
-  unsafeStringToUint8ArrayOfCharCodes <$> atob (toRfc4648 str) >>= decodeUtf8
+  if atobIsDefined
+    then
+      unsafeStringToUint8ArrayOfCharCodes <$> atob (toRfc4648 str)
+        >>= decodeUtf8
+    else
+      runFn3 _decodeNode Left Right (toRfc4648 str)
+
+foreign import atobIsDefined :: Boolean
+foreign import _decodeNode ::
+  Fn3
+    (∀ x y. x -> Either x y)
+    (∀ x y. y -> Either x y)
+    String
+    (Either Error String)
 
 -- Helper function to convert (a very specific set of) strings to a `Uint8Array`
 -- of Unicode code points.

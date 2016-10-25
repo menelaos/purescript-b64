@@ -20,7 +20,6 @@
   "author": "Andreas Schacker",
   "license": "Apache-2.0",
   "devDependencies": {
-    "bower": "^1.7.9",
-    "text-encoding": "^0.6.0"
+    "text-encoding": "^0.6.1"
   }
 }

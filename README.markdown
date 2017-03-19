@@ -8,7 +8,7 @@ Unicode-aware Base64 encoding and decoding
 bower install purescript-b64
 ```
 
-In nodejs, you will need to install [text-encoding](https://www.npmjs.com/package/text-encoding) since this library depends on [TextDecoder](https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder).
+In nodejs, you will need to install [text-encoding](https://www.npmjs.com/package/text-encoding) since nodejs doesn't provide an implementation of [TextDecoder](https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder).
 
 ```
 npm install text-encoding

@@ -2,14 +2,14 @@ module Test.Data.String.Base64
   ( testBase64 )
 where
 
-import Control.Monad.Eff.Console (log)
-import Data.Either               (fromRight, isLeft)
-import Data.String.Base64        (decode, encode, encodeUrl)
-import Data.String.Utils         (stripChars)
-import Partial.Unsafe            (unsafePartial)
+import Control.Monad.Eff.Console ( log )
+import Data.Either               ( fromRight, isLeft )
+import Data.String.Base64        ( decode, encode, encodeUrl )
+import Data.String.Utils         ( stripChars )
+import Partial.Unsafe            ( unsafePartial )
 import Prelude
-import Test.Input                (WellFormedInput(..))
-import Test.StrongCheck          (Result, SC, (===), assert, quickCheck)
+import Test.Input                ( WellFormedInput (..) )
+import Test.StrongCheck          ( Result, SC, (===), assert, quickCheck )
 
 testBase64 :: SC () Unit
 testBase64 = do

@@ -1,8 +1,8 @@
 "use strict";
 
-// Encode a string to its Base64 representation using Node's `Buffer` API
-function encodeNode (str) {
-  var base64EncodedString = Buffer.from(str).toString("base64");
+// Encode a Uint8Array to its Base64 representation using Node's `Buffer` API
+function encodeNode (uInt8Array) {
+  var base64EncodedString = Buffer.from(uInt8Array).toString("base64");
 
   return base64EncodedString;
 };
@@ -24,33 +24,7 @@ function _decodeNode (Left, Right, str) {
 
   try {
     if (!reValidBase64.test(str)) { throw new Error("Invalid input string");}
-    result = Right(Buffer.from(str, "base64").toString("utf-8"));
-  }
-  catch (error) {
-    result = Left(error);
-  }
-
-  return result;
-};
-
-function _atob (Left, Right, str) {
-  var result;
-
-  try {
-    result = Right(atob(str));
-  }
-  catch (error) {
-    result = Left(error);
-  }
-
-  return result;
-};
-
-function _btoa (Left, Right, str) {
-  var result;
-
-  try {
-    result = Right(btoa(str));
+    result = Right(Buffer.from(str, "base64"));
   }
   catch (error) {
     result = Left(error);
@@ -61,5 +35,3 @@ function _btoa (Left, Right, str) {
 
 exports.encodeNode  = encodeNode;
 exports._decodeNode = _decodeNode;
-exports._atob       = _atob;
-exports._btoa       = _btoa;

@@ -5,10 +5,8 @@ where
 import Control.Monad.Eff.Console ( log )
 import Data.Either               ( fromRight, isLeft )
 import Data.Binary.Base64        ( decode, encode, encodeUrl )
-import Data.String.Utils         ( stripChars )
 import Data.TextDecoder          ( decodeUtf8 )
 import Data.TextEncoder          ( encodeUtf8 )
-import Data.TypedArray           ( asUint8Array )
 import Partial.Unsafe            ( unsafePartial )
 import Prelude
 import Test.Input                ( WellFormedInput (..) )

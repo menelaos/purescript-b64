@@ -7,7 +7,6 @@ where
 
 import Control.Monad.Eff.Exception ( Error )
 import Data.ArrayBuffer.Types      ( Uint8Array )
-import Data.Char.Utils             ( toCodePoint )
 import Data.Either                 ( Either (Left, Right), fromRight )
 import Data.Function.Uncurried     ( Fn3, runFn3 )
 import Data.String.Base64          ( atob, btoa )
@@ -18,10 +17,6 @@ import Data.String.Base64.Internal ( atobIsDefined
                                    , toRfc4648
                                    , toUrlSafe
                                    )
-import Data.String.Utils           ( replaceAll, toCharArray )
-import Data.TextDecoder            ( decodeUtf8 )
-import Data.TextEncoder            ( encodeUtf8 )
-import Data.TypedArray             ( asUint8Array )
 import Partial.Unsafe              ( unsafePartial )
 import Prelude
 

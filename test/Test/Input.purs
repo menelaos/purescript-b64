@@ -6,6 +6,7 @@ import Data.Char.Unicode          (isPrint)
 import Data.String.Utils          (filter)
 import Prelude
 import Test.StrongCheck.Arbitrary (class Arbitrary, arbitrary)
+import Unsafe.Coerce              (unsafeCoerce)
 
 
 -- When UTF8-encoding a string, surrogate code points and other non-characters
@@ -23,4 +24,9 @@ newtype WellFormedInput = WellFormedInput String
 -- out of the first 65536 unicode code points.
 -- See `charGen` in `purescript-strongcheck`.
 instance arbWellFormedInput :: Arbitrary WellFormedInput where
-  arbitrary = WellFormedInput <<< filter isPrint <$> arbitrary
+  arbitrary = WellFormedInput <<< filter isPrint' <$> arbitrary
+
+-- This hack is necessary as the `filter` function in `purescript-stringutils`
+-- iterates over Unicode code points whereas a `Char` is a code unit.
+isPrint' :: String -> Boolean
+isPrint' = isPrint <<< unsafeCoerce

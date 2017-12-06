@@ -25,7 +25,7 @@
     "purescript-prelude": "^3.0.0",
     "purescript-exceptions": "^3.0.0",
     "purescript-arraybuffer-types": "^2.0.0",
-    "purescript-stringutils": "^0.0.6",
+    "purescript-stringutils": "^0.0.7",
     "purescript-either": "^3.0.0",
     "purescript-functions": "^3.0.0",
     "purescript-encoding": "^0.0.4",

@@ -29,7 +29,6 @@
     "purescript-either": "^3.0.0",
     "purescript-functions": "^3.0.0",
     "purescript-encoding": "^0.0.4",
-    "purescript-typedarray": "^2.0.0",
     "purescript-partial": "^1.2.0"
   },
   "devDependencies": {

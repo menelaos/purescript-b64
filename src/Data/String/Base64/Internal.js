@@ -20,6 +20,13 @@ function uint8ArrayToBtoaSafeString (u8) {
   return cs.join("");
 };
 
+// Inspired by `purescript-typedarray`. Unfortunately, the future of that
+// library is currently (2018-07-18) uncertain.
+function asUint8Array (array) {
+  return new Uint8Array(array);
+}
+
 exports.atobIsDefined              = atobIsDefined;
 exports.btoaIsDefined              = btoaIsDefined;
 exports.uint8ArrayToBtoaSafeString = uint8ArrayToBtoaSafeString;
+exports.asUint8Array               = asUint8Array;

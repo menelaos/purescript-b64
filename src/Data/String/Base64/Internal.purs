@@ -11,13 +11,13 @@ where
 import Data.ArrayBuffer.Types ( Uint8Array )
 import Data.Char.Utils        ( toCodePoint )
 import Data.String.Utils      ( replaceAll, toCharArray )
-import Data.TypedArray        ( asUint8Array )
 import Prelude
 
 
 foreign import btoaIsDefined :: Boolean
 foreign import uint8ArrayToBtoaSafeString :: Uint8Array -> String
 foreign import atobIsDefined :: Boolean
+foreign import asUint8Array :: Array Int -> Uint8Array
 
 
 -- Helper function to convert (a very specific set of) strings to a `Uint8Array`

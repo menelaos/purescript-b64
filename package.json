@@ -20,6 +20,6 @@
   "author": "Andreas Schacker",
   "license": "Apache-2.0",
   "devDependencies": {
-    "text-encoding": "^0.6.1"
+    "text-encoding": "^0.6.4"
   }
 }

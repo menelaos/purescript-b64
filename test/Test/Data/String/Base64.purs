@@ -2,16 +2,17 @@ module Test.Data.String.Base64
   ( testBase64 )
 where
 
-import Control.Monad.Eff.Console ( log )
 import Data.Either               ( fromRight, isLeft )
 import Data.String.Base64        ( decode, encode, encodeUrl )
 import Data.String.Utils         ( stripChars )
+import Effect                    ( Effect )
+import Effect.Console            ( log )
 import Partial.Unsafe            ( unsafePartial )
 import Prelude
 import Test.Input                ( WellFormedInput (..) )
-import Test.StrongCheck          ( Result, SC, (===), assert, quickCheck )
+import Test.StrongCheck          ( Result, (===), assert, quickCheck )
 
-testBase64 :: SC () Unit
+testBase64 :: Effect Unit
 testBase64 = do
   log "atob"
   log "`atob` is not available on Node.js"

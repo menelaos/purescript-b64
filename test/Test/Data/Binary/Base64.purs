@@ -2,17 +2,18 @@ module Test.Data.Binary.Base64
   ( testBase64 )
 where
 
-import Control.Monad.Eff.Console ( log )
 import Data.Either               ( fromRight, isLeft )
 import Data.Binary.Base64        ( decode, encode, encodeUrl )
 import Data.TextDecoder          ( decodeUtf8 )
 import Data.TextEncoder          ( encodeUtf8 )
+import Effect                    ( Effect )
+import Effect.Console            ( log )
 import Partial.Unsafe            ( unsafePartial )
 import Prelude
 import Test.Input                ( WellFormedInput (..) )
-import Test.StrongCheck          ( Result, SC, (===), assert, quickCheck )
+import Test.StrongCheck          ( Result, (===), assert, quickCheck )
 
-testBase64 :: SC () Unit
+testBase64 :: Effect Unit
 testBase64 = do
   log "decode"
   assert $ unsafePartial (fromRight (decode "" >>= decodeUtf8))     === ""

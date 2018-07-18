@@ -7,7 +7,6 @@ module Data.String.Base64
   )
 where
 
-import Control.Monad.Eff.Exception ( Error )
 import Data.Either                 ( Either (Left, Right), fromRight )
 import Data.Function.Uncurried     ( Fn3, runFn3 )
 import Data.String.Base64.Internal ( atobIsDefined
@@ -19,6 +18,7 @@ import Data.String.Base64.Internal ( atobIsDefined
                                    )
 import Data.TextDecoder            ( decodeUtf8 )
 import Data.TextEncoder            ( encodeUtf8 )
+import Effect.Exception            ( Error )
 import Partial.Unsafe              ( unsafePartial )
 import Prelude
 

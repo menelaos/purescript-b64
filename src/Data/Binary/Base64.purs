@@ -5,7 +5,6 @@ module Data.Binary.Base64
   )
 where
 
-import Control.Monad.Eff.Exception ( Error )
 import Data.ArrayBuffer.Types      ( Uint8Array )
 import Data.Either                 ( Either (Left, Right), fromRight )
 import Data.Function.Uncurried     ( Fn3, runFn3 )
@@ -17,6 +16,7 @@ import Data.String.Base64.Internal ( atobIsDefined
                                    , toRfc4648
                                    , toUrlSafe
                                    )
+import Effect.Exception            ( Error )
 import Partial.Unsafe              ( unsafePartial )
 import Prelude
 

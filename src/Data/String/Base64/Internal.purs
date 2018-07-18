@@ -9,8 +9,10 @@ module Data.String.Base64.Internal
 where
 
 import Data.ArrayBuffer.Types ( Uint8Array )
-import Data.Char.Utils        ( toCodePoint )
-import Data.String.Utils      ( replaceAll, toCharArray )
+import Data.Enum              ( fromEnum )
+import Data.String            ( Pattern(Pattern), Replacement(Replacement)
+                              , replaceAll, toCodePointArray
+                              )
 import Prelude
 
 
@@ -27,7 +29,7 @@ foreign import asUint8Array :: Array Int -> Uint8Array
 -- whose Unicode code points are outside the range 0 .. U+00FF.
 unsafeStringToUint8ArrayOfCharCodes :: String -> Uint8Array
 unsafeStringToUint8ArrayOfCharCodes =
-  asUint8Array <<< map toCodePoint <<< toCharArray
+  asUint8Array <<< map fromEnum <<< toCodePointArray
 
 
 -- RFC 4648/URL-safe alphabet conversion
@@ -43,7 +45,10 @@ unsafeStringToUint8ArrayOfCharCodes =
 -- The following functions help to convert between the two alphabets.
 
 toUrlSafe :: String -> String
-toUrlSafe = replaceAll "=" "" <<< replaceAll "/" "_" <<< replaceAll "+" "-"
+toUrlSafe = replaceAll (Pattern "=") (Replacement "")
+        <<< replaceAll (Pattern "/") (Replacement "_")
+        <<< replaceAll (Pattern "+") (Replacement "-")
 
 toRfc4648 :: String -> String
-toRfc4648 = replaceAll "-" "+" <<< replaceAll "_" "/"
+toRfc4648 = replaceAll (Pattern "-") (Replacement "+")
+        <<< replaceAll (Pattern "_") (Replacement "/")

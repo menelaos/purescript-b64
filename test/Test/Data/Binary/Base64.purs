@@ -2,16 +2,16 @@ module Test.Data.Binary.Base64
   ( testBase64 )
 where
 
-import Data.Either               ( fromRight, isLeft )
-import Data.Binary.Base64        ( decode, encode, encodeUrl )
-import Data.TextDecoder          ( decodeUtf8 )
-import Data.TextEncoder          ( encodeUtf8 )
-import Effect                    ( Effect )
-import Effect.Console            ( log )
-import Partial.Unsafe            ( unsafePartial )
+import Data.Either        ( fromRight, isLeft )
+import Data.Binary.Base64 ( decode, encode, encodeUrl )
+import Data.TextDecoder   ( decodeUtf8 )
+import Data.TextEncoder   ( encodeUtf8 )
+import Effect             ( Effect )
+import Effect.Console     ( log )
+import Partial.Unsafe     ( unsafePartial )
 import Prelude
-import Test.Input                ( WellFormedInput (..) )
-import Test.StrongCheck          ( Result, (===), assert, quickCheck )
+import Test.Input         ( WellFormedInput (..) )
+import Test.StrongCheck   ( Result, (===), assert, quickCheck )
 
 testBase64 :: Effect Unit
 testBase64 = do

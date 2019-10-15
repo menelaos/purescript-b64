@@ -1,8 +1,7 @@
 module Test.Main where
 
+import Effect                  ( Effect )
 import Prelude
-
-import Effect (Effect)
 import Test.Data.Binary.Base64 as Binary
 import Test.Data.String.Base64 as String
 

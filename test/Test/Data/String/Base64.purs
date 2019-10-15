@@ -2,15 +2,15 @@ module Test.Data.String.Base64
   ( testBase64 )
 where
 
-import Data.Either               ( fromRight, isLeft )
-import Data.String.Base64        ( decode, encode, encodeUrl )
-import Data.String.Utils         ( stripChars )
-import Effect                    ( Effect )
-import Effect.Console            ( log )
-import Partial.Unsafe            ( unsafePartial )
+import Data.Either        ( fromRight, isLeft )
+import Data.String.Base64 ( decode, encode, encodeUrl )
+import Data.String.Utils  ( stripChars )
+import Effect             ( Effect )
+import Effect.Console     ( log )
+import Partial.Unsafe     ( unsafePartial )
 import Prelude
-import Test.Input                ( WellFormedInput (..) )
-import Test.StrongCheck          ( Result, (===), assert, quickCheck )
+import Test.Input         ( WellFormedInput (..) )
+import Test.StrongCheck   ( Result, (===), assert, quickCheck )
 
 testBase64 :: Effect Unit
 testBase64 = do

@@ -1,12 +1,12 @@
 module Test.Input
-  ( WellFormedInput(..) )
+  ( WellFormedInput (..) )
 where
 
-import Data.Char.Unicode          (isPrint)
-import Data.String.Utils          (filter)
+import Data.Char.Unicode          ( isPrint )
+import Data.String.Utils          ( filter )
 import Prelude
-import Test.StrongCheck.Arbitrary (class Arbitrary, arbitrary)
-import Unsafe.Coerce              (unsafeCoerce)
+import Test.StrongCheck.Arbitrary ( class Arbitrary, arbitrary )
+import Unsafe.Coerce              ( unsafeCoerce )
 
 
 -- When UTF8-encoding a string, surrogate code points and other non-characters

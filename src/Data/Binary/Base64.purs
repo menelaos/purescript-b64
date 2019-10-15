@@ -7,7 +7,7 @@ where
 
 import Data.ArrayBuffer.Types      ( Uint8Array )
 import Data.Either                 ( Either (Left, Right), fromRight )
-import Data.Function.Uncurried     ( Fn3, runFn3 )
+import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
 import Data.String.Base64          ( atob, btoa )
 import Data.String.Base64.Internal ( atobIsDefined
                                    , btoaIsDefined
@@ -37,7 +37,10 @@ encode uInt8Array =
     else
       encodeNode uInt8Array
 
-foreign import encodeNode :: Uint8Array -> String
+encodeNode :: Uint8Array -> String
+encodeNode u8 = runFn1 encodeNodeImpl u8
+
+foreign import encodeNodeImpl :: Fn1 Uint8Array String
 
 -- | Encode a `Uint8Array` to a URL-safe Base64 representation.
 -- |
@@ -72,11 +75,10 @@ decode str =
     then
       unsafeStringToUint8ArrayOfCharCodes <$> atob (toRfc4648 str)
     else
-      runFn3 _decodeNode Left Right (toRfc4648 str)
+      runFn3 decodeNodeImpl Left Right (toRfc4648 str)
 
-foreign import _decodeNode ::
-  Fn3
-    (∀ x y. x -> Either x y)
-    (∀ x y. y -> Either x y)
-    String
-    (Either Error Uint8Array)
+foreign import decodeNodeImpl :: Fn3
+  (∀ x y. x -> Either x y)
+  (∀ x y. y -> Either x y)
+  String
+  (Either Error Uint8Array)

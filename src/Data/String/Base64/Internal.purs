@@ -8,19 +8,27 @@ module Data.String.Base64.Internal
   )
 where
 
-import Data.ArrayBuffer.Types ( Uint8Array )
-import Data.Enum              ( fromEnum )
-import Data.String            ( Pattern(Pattern), Replacement(Replacement)
-                              , replaceAll, toCodePointArray
-                              )
+import Data.ArrayBuffer.Types  ( Uint8Array )
+import Data.Enum               ( fromEnum )
+import Data.Function.Uncurried ( Fn1, runFn1 )
+import Data.String             ( Pattern(Pattern), Replacement(Replacement)
+                               , replaceAll, toCodePointArray
+                               )
 import Prelude
 
 
-foreign import btoaIsDefined :: Boolean
-foreign import uint8ArrayToBtoaSafeString :: Uint8Array -> String
 foreign import atobIsDefined :: Boolean
-foreign import asUint8Array :: Array Int -> Uint8Array
+foreign import btoaIsDefined :: Boolean
 
+uint8ArrayToBtoaSafeString :: Uint8Array -> String
+uint8ArrayToBtoaSafeString u8 = runFn1 uint8ArrayToBtoaSafeStringImpl u8
+
+foreign import uint8ArrayToBtoaSafeStringImpl :: Fn1 Uint8Array String
+
+asUint8Array :: Array Int -> Uint8Array
+asUint8Array arr = runFn1 asUint8ArrayImpl arr
+
+foreign import asUint8ArrayImpl :: Fn1 (Array Int) Uint8Array
 
 -- Helper function to convert (a very specific set of) strings to a `Uint8Array`
 -- of Unicode code points.

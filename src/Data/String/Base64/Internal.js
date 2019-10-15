@@ -9,7 +9,7 @@ var btoaIsDefined = typeof btoa === "function";
 // This means that e.g. a three-byte UTF-8 character is mapped to three
 // different characters with code points between 0 .. U+00FF.
 // This is also the reason why `String.fromCharCode` is perfectly safe here.
-function uint8ArrayToBtoaSafeString (u8) {
+function uint8ArrayToBtoaSafeStringImpl (u8) {
   var chunkSize = 0x8000; // Chunk size used for reading large arrays
   var cs = [];
 
@@ -22,11 +22,11 @@ function uint8ArrayToBtoaSafeString (u8) {
 
 // Inspired by `purescript-typedarray`. Unfortunately, the future of that
 // library is currently (2018-07-18) uncertain.
-function asUint8Array (array) {
+function asUint8ArrayImpl (array) {
   return new Uint8Array(array);
 }
 
-exports.atobIsDefined              = atobIsDefined;
-exports.btoaIsDefined              = btoaIsDefined;
-exports.uint8ArrayToBtoaSafeString = uint8ArrayToBtoaSafeString;
-exports.asUint8Array               = asUint8Array;
+exports.atobIsDefined                  = atobIsDefined;
+exports.btoaIsDefined                  = btoaIsDefined;
+exports.uint8ArrayToBtoaSafeStringImpl = uint8ArrayToBtoaSafeStringImpl;
+exports.asUint8ArrayImpl               = asUint8ArrayImpl;

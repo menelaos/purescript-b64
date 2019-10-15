@@ -1,14 +1,14 @@
 "use strict";
 
 // Encode a string to its Base64 representation using Node's `Buffer` API
-function encodeNode (str) {
+function encodeNodeImpl (str) {
   var base64EncodedString = Buffer.from(str).toString("base64");
 
   return base64EncodedString;
 };
 
 // Decode a Base64-encoded string using Node's `Buffer` API
-function _decodeNode (Left, Right, str) {
+function decodeNodeImpl (Left, Right, str) {
   var result;
 
   // Check that the input string is a valid Base64-encoded string as Node.js
@@ -33,7 +33,7 @@ function _decodeNode (Left, Right, str) {
   return result;
 };
 
-function _atob (Left, Right, str) {
+function atobImpl (Left, Right, str) {
   var result;
 
   try {
@@ -46,7 +46,7 @@ function _atob (Left, Right, str) {
   return result;
 };
 
-function _btoa (Left, Right, str) {
+function btoaImpl (Left, Right, str) {
   var result;
 
   try {
@@ -59,7 +59,7 @@ function _btoa (Left, Right, str) {
   return result;
 };
 
-exports.encodeNode  = encodeNode;
-exports._decodeNode = _decodeNode;
-exports._atob       = _atob;
-exports._btoa       = _btoa;
+exports.encodeNodeImpl = encodeNodeImpl;
+exports.decodeNodeImpl = decodeNodeImpl;
+exports.atobImpl       = atobImpl;
+exports.btoaImpl       = btoaImpl;

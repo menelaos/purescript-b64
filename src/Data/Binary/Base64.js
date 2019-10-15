@@ -1,14 +1,14 @@
 "use strict";
 
 // Encode a Uint8Array to its Base64 representation using Node's `Buffer` API
-function encodeNode (uInt8Array) {
+function encodeNodeImpl (uInt8Array) {
   var base64EncodedString = Buffer.from(uInt8Array).toString("base64");
 
   return base64EncodedString;
 };
 
 // Decode a Base64-encoded string using Node's `Buffer` API
-function _decodeNode (Left, Right, str) {
+function decodeNodeImpl (Left, Right, str) {
   var result;
 
   // Check that the input string is a valid Base64-encoded string as Node.js
@@ -33,5 +33,5 @@ function _decodeNode (Left, Right, str) {
   return result;
 };
 
-exports.encodeNode  = encodeNode;
-exports._decodeNode = _decodeNode;
+exports.encodeNodeImpl = encodeNodeImpl;
+exports.decodeNodeImpl = decodeNodeImpl;

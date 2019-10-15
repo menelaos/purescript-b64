@@ -8,7 +8,7 @@ module Data.String.Base64
 where
 
 import Data.Either                 ( Either (Left, Right), fromRight )
-import Data.Function.Uncurried     ( Fn3, runFn3 )
+import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
 import Data.String.Base64.Internal ( atobIsDefined
                                    , btoaIsDefined
                                    , uint8ArrayToBtoaSafeString
@@ -67,7 +67,10 @@ encode str =
     else
       encodeNode str
 
-foreign import encodeNode :: String -> String
+encodeNode :: String -> String
+encodeNode s = runFn1 encodeNodeImpl s
+
+foreign import encodeNodeImpl :: Fn1 String String
 
 -- | Encode a `String` to a URL-safe Base64 representation.
 -- |
@@ -93,14 +96,13 @@ encodeUrl = toUrlSafe <<< encode
 -- | -- ✗ Invalid input string
 -- | ```
 btoa :: String -> Either Error String
-btoa str = runFn3 _btoa Left Right str
+btoa str = runFn3 btoaImpl Left Right str
 
-foreign import _btoa ::
-  Fn3
-    (∀ x y. x -> Either x y)
-    (∀ x y. y -> Either x y)
-    String
-    (Either Error String)
+foreign import btoaImpl :: Fn3
+  (∀ x y. x -> Either x y)
+  (∀ x y. y -> Either x y)
+  String
+  (Either Error String)
 
 -- | Decode a Base64-encoded `String`.
 -- | This function handles both normal (`RFC 4648`) and URL-safe input strings.
@@ -124,14 +126,13 @@ decode str =
       unsafeStringToUint8ArrayOfCharCodes <$> atob (toRfc4648 str)
         >>= decodeUtf8
     else
-      runFn3 _decodeNode Left Right (toRfc4648 str)
+      runFn3 decodeNodeImpl Left Right (toRfc4648 str)
 
-foreign import _decodeNode ::
-  Fn3
-    (∀ x y. x -> Either x y)
-    (∀ x y. y -> Either x y)
-    String
-    (Either Error String)
+foreign import decodeNodeImpl :: Fn3
+  (∀ x y. x -> Either x y)
+  (∀ x y. y -> Either x y)
+  String
+  (Either Error String)
 
 -- | Decode a Base64-encoded `String` via the native `atob` function.
 -- | Returns an `Error` for malformed input strings.
@@ -145,11 +146,10 @@ foreign import _decodeNode ::
 -- | -- ✗ Invalid input string
 -- | ```
 atob :: String -> Either Error String
-atob str = runFn3 _atob Left Right str
+atob str = runFn3 atobImpl Left Right str
 
-foreign import _atob ::
-  Fn3
-    (∀ x y. x -> Either x y)
-    (∀ x y. y -> Either x y)
-    String
-    (Either Error String)
+foreign import atobImpl :: Fn3
+  (∀ x y. x -> Either x y)
+  (∀ x y. y -> Either x y)
+  String
+  (Either Error String)

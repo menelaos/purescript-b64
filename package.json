@@ -1,10 +1,6 @@
 {
   "name": "purescript-b64",
   "description": "Unicode-aware Base64 encoding and decoding",
-  "scripts": {
-    "build": "purs compile \"src/**/*.purs\" \"bower_components/purescript-*/src/**/*.purs\"",
-    "test": "purs compile \"src/**/*.purs\" \"bower_components/purescript-*/src/**/*.purs\" \"test/**/*.purs\" && purs bundle \"output/**/*.js\" --module Test.Main --main Test.Main | node"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/menelaos/purescript-b64.git"

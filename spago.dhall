@@ -4,6 +4,10 @@ You can edit this file as you like.
 -}
 { name =
     "b64"
+, license =
+    "Apache-2.0"
+, repository =
+    "git://github.com/menelaos/purescript-b64.git"
 , dependencies =
     [ "arraybuffer-types"
     , "console"

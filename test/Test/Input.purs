@@ -2,11 +2,11 @@ module Test.Input
   ( WellFormedInput (..) )
 where
 
-import Data.Char.Unicode          ( isPrint )
-import Data.String.Utils          ( filter )
+import Data.Char.Unicode         ( isPrint )
+import Data.String.Utils         ( filter )
 import Prelude
-import Test.StrongCheck.Arbitrary ( class Arbitrary, arbitrary )
-import Unsafe.Coerce              ( unsafeCoerce )
+import Test.QuickCheck.Arbitrary ( class Arbitrary, arbitrary )
+import Unsafe.Coerce             ( unsafeCoerce )
 
 
 -- When UTF8-encoding a string, surrogate code points and other non-characters
@@ -22,7 +22,7 @@ newtype WellFormedInput = WellFormedInput String
 
 -- The `Arbitrary` instance for `String` currently simply chooses characters
 -- out of the first 65536 unicode code points.
--- See `charGen` in `purescript-strongcheck`.
+-- See the `Arbitrary` instance for `Char` in `purescript-quickcheck`.
 instance arbWellFormedInput :: Arbitrary WellFormedInput where
   arbitrary = WellFormedInput <<< filter isPrint' <$> arbitrary
 

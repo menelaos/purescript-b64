@@ -10,18 +10,19 @@ import Effect             ( Effect )
 import Effect.Console     ( log )
 import Partial.Unsafe     ( unsafePartial )
 import Prelude
+import Test.Assert        ( assert )
 import Test.Input         ( WellFormedInput (..) )
-import Test.StrongCheck   ( Result, (===), assert, quickCheck )
+import Test.QuickCheck    ( Result, (===), quickCheck )
 
 testBase64 :: Effect Unit
 testBase64 = do
   log "decode"
-  assert $ unsafePartial (fromRight (decode "" >>= decodeUtf8))     === ""
-  assert $ unsafePartial (fromRight (decode "YQ==" >>= decodeUtf8)) === "a"
-  assert $ unsafePartial (fromRight (decode "YQ=" >>= decodeUtf8))  === "a"
-  assert $ unsafePartial (fromRight (decode "YQ" >>= decodeUtf8))   === "a"
-  assert $ unsafePartial (fromRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6" >>= decodeUtf8)) === "柿くへば鐘が鳴るなり法隆寺"
-  assert $ unsafePartial (fromRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6" >>= decodeUtf8)) === "柿くへば鐘が鳴るなり法隆寺"
+  assert $ unsafePartial (fromRight (decode "" >>= decodeUtf8))     == ""
+  assert $ unsafePartial (fromRight (decode "YQ==" >>= decodeUtf8)) == "a"
+  assert $ unsafePartial (fromRight (decode "YQ=" >>= decodeUtf8))  == "a"
+  assert $ unsafePartial (fromRight (decode "YQ" >>= decodeUtf8))   == "a"
+  assert $ unsafePartial (fromRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6" >>= decodeUtf8)) == "柿くへば鐘が鳴るなり法隆寺"
+  assert $ unsafePartial (fromRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6" >>= decodeUtf8)) == "柿くへば鐘が鳴るなり法隆寺"
   assert $ isLeft (decode "∀")
 
   log "encode"

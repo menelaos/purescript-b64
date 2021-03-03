@@ -7,20 +7,15 @@ module Data.String.Base64
   )
 where
 
-import Data.Either                 ( Either (Left, Right), fromRight )
-import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
-import Data.String.Base64.Internal ( atobIsDefined
-                                   , btoaIsDefined
-                                   , uint8ArrayToBtoaSafeString
-                                   , unsafeStringToUint8ArrayOfCharCodes
-                                   , toUrlSafe
-                                   , toRfc4648
-                                   )
-import Data.TextDecoder            ( decodeUtf8 )
-import Data.TextEncoder            ( encodeUtf8 )
-import Effect.Exception            ( Error )
-import Partial.Unsafe              ( unsafePartial )
 import Prelude
+
+import Data.Either (Either(..))
+import Data.Function.Uncurried (Fn1, Fn3, runFn1, runFn3)
+import Data.String.Base64.Internal (atobIsDefined, btoaIsDefined, uint8ArrayToBtoaSafeString, unsafeStringToUint8ArrayOfCharCodes, toUrlSafe, toRfc4648)
+import Data.TextDecoder (decodeUtf8)
+import Data.TextEncoder (encodeUtf8)
+import Effect.Exception (Error)
+import Effect.Exception.Unsafe (unsafeThrow)
 
 
 -- | Encode a `String` to its (RFC 4648) Base64 representation.
@@ -62,8 +57,9 @@ encode :: String -> String
 encode str =
   if btoaIsDefined
     then
-      unsafePartial
-        (fromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str))
+        case btoa (uint8ArrayToBtoaSafeString $ encodeUtf8 $ str) of
+          Right s -> s
+          Left _ -> unsafeThrow "could not encode String"
     else
       encodeNode str
 

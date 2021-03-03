@@ -5,20 +5,15 @@ module Data.Binary.Base64
   )
 where
 
-import Data.ArrayBuffer.Types      ( Uint8Array )
-import Data.Either                 ( Either (Left, Right), fromRight )
-import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
-import Data.String.Base64          ( atob, btoa )
-import Data.String.Base64.Internal ( atobIsDefined
-                                   , btoaIsDefined
-                                   , uint8ArrayToBtoaSafeString
-                                   , unsafeStringToUint8ArrayOfCharCodes
-                                   , toRfc4648
-                                   , toUrlSafe
-                                   )
-import Effect.Exception            ( Error )
-import Partial.Unsafe              ( unsafePartial )
 import Prelude
+
+import Data.ArrayBuffer.Types (Uint8Array)
+import Data.Either (Either(..))
+import Data.Function.Uncurried (Fn1, Fn3, runFn1, runFn3)
+import Data.String.Base64 (atob, btoa)
+import Data.String.Base64.Internal (atobIsDefined, btoaIsDefined, uint8ArrayToBtoaSafeString, unsafeStringToUint8ArrayOfCharCodes, toRfc4648, toUrlSafe)
+import Effect.Exception (Error)
+import Effect.Exception.Unsafe (unsafeThrow)
 
 
 -- | Encode a `Uint8Array` to its (RFC 4648) Base64 representation.
@@ -32,8 +27,9 @@ encode :: Uint8Array -> String
 encode uInt8Array =
   if btoaIsDefined
     then
-      unsafePartial
-        (fromRight (btoa <<< uint8ArrayToBtoaSafeString $ uInt8Array))
+        case (btoa <<< uint8ArrayToBtoaSafeString $ uInt8Array) of
+          Right s -> s
+          Left _ -> unsafeThrow "base64-encode failed unexpectedly"
     else
       encodeNode uInt8Array
 

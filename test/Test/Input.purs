@@ -2,7 +2,7 @@ module Test.Input
   ( WellFormedInput (..) )
 where
 
-import Data.Char.Unicode         ( isPrint )
+import Data.CodePoint.Unicode         ( isPrint )
 import Data.String.Utils         ( filter )
 import Prelude
 import Test.QuickCheck.Arbitrary ( class Arbitrary, arbitrary )

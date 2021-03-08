@@ -4,12 +4,11 @@ where
 
 import Prelude
 
-import Data.Either (Either(..), isLeft)
+import Data.Either (isLeft, fromRight)
 import Data.String.Base64 (decode, encode, encodeUrl)
 import Data.String.Utils (stripChars)
 import Effect (Effect)
 import Effect.Console (log)
-import Effect.Exception.Unsafe (unsafeThrow)
 import Test.Assert (assert)
 import Test.Input (WellFormedInput(..))
 import Test.QuickCheck (Result, (===), quickCheck)
@@ -24,12 +23,12 @@ testBase64 = do
   log "`btoa` is not available on Node.js"
 
   log "decode"
-  assert $ getRight (decode "")     == ""
-  assert $ getRight (decode "YQ==") == "a"
-  assert $ getRight (decode "YQ=")  == "a"
-  assert $ getRight (decode "YQ")   == "a"
-  assert $ getRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6") == "柿くへば鐘が鳴るなり法隆寺"
-  assert $ getRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6") == "柿くへば鐘が鳴るなり法隆寺"
+  assert $ fromRight "err" (decode "")     == ""
+  assert $ fromRight "err" (decode "YQ==") == "a"
+  assert $ fromRight "err" (decode "YQ=")  == "a"
+  assert $ fromRight "err" (decode "YQ")   == "a"
+  assert $ fromRight "err" (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6") == "柿くへば鐘が鳴るなり法隆寺"
+  assert $ fromRight "err" (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6") == "柿くへば鐘が鳴るなり法隆寺"
   assert $ isLeft (decode "∀")
 
   log "encode"
@@ -67,7 +66,7 @@ testBase64 = do
   let
     encodeDecodeIdProp :: WellFormedInput -> Result
     encodeDecodeIdProp (WellFormedInput str) =
-      str === getRight (decode <<< encode $ str)
+      str === fromRight "err" (decode <<< encode $ str)
 
   quickCheck encodeDecodeIdProp
 
@@ -75,10 +74,6 @@ testBase64 = do
   let
     encodeUrlDecodeIdProp :: WellFormedInput -> Result
     encodeUrlDecodeIdProp (WellFormedInput str) =
-      str === getRight (decode <<< encodeUrl $ str)
+      str === fromRight "err" (decode <<< encodeUrl $ str)
 
   quickCheck encodeUrlDecodeIdProp
-
-  where
-  getRight (Right r) = r
-  getRight (Left _) = unsafeThrow "expected Right"

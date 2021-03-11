@@ -6,7 +6,7 @@ module Data.Binary.Base64
 where
 
 import Data.ArrayBuffer.Types      ( Uint8Array )
-import Data.Either                 ( Either (Left, Right), fromRight )
+import Data.Either                 ( Either (Left, Right) )
 import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
 import Data.String.Base64          ( atob, btoa )
 import Data.String.Base64.Internal ( atobIsDefined
@@ -15,9 +15,9 @@ import Data.String.Base64.Internal ( atobIsDefined
                                    , unsafeStringToUint8ArrayOfCharCodes
                                    , toRfc4648
                                    , toUrlSafe
+                                   , unsafeFromRight
                                    )
 import Effect.Exception            ( Error )
-import Partial.Unsafe              ( unsafePartial )
 import Prelude
 
 
@@ -32,8 +32,7 @@ encode :: Uint8Array -> String
 encode uInt8Array =
   if btoaIsDefined
     then
-      unsafePartial
-        (fromRight (btoa <<< uint8ArrayToBtoaSafeString $ uInt8Array))
+      unsafeFromRight (btoa <<< uint8ArrayToBtoaSafeString $ uInt8Array)
     else
       encodeNode uInt8Array
 

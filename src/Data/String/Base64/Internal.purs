@@ -2,6 +2,7 @@ module Data.String.Base64.Internal
   ( atobIsDefined
   , btoaIsDefined
   , uint8ArrayToBtoaSafeString
+  , unsafeFromRight
   , unsafeStringToUint8ArrayOfCharCodes
   , toUrlSafe
   , toRfc4648
@@ -9,11 +10,13 @@ module Data.String.Base64.Internal
 where
 
 import Data.ArrayBuffer.Types  ( Uint8Array )
+import Data.Either             ( Either, either )
 import Data.Enum               ( fromEnum )
 import Data.Function.Uncurried ( Fn1, runFn1 )
 import Data.String             ( Pattern(Pattern), Replacement(Replacement)
                                , replaceAll, toCodePointArray
                                )
+import Partial.Unsafe          ( unsafeCrashWith )
 import Prelude
 
 
@@ -60,3 +63,12 @@ toUrlSafe = replaceAll (Pattern "=") (Replacement "")
 toRfc4648 :: String -> String
 toRfc4648 = replaceAll (Pattern "-") (Replacement "+")
         <<< replaceAll (Pattern "_") (Replacement "/")
+
+
+-- Only use this function when you are absolutely sure that the argument is a
+-- `Right` value.
+unsafeFromRight :: ∀ a b. Either a b -> b
+unsafeFromRight = either (\_ -> unsafeCrashWith crashMessage) identity
+  where
+    crashMessage = "This should never happen! If you see this message, please \
+                   \file a bug report in the `purescript-b64` issue tracker."

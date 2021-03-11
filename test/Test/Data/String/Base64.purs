@@ -2,16 +2,17 @@ module Test.Data.String.Base64
   ( testBase64 )
 where
 
-import Data.Either        ( fromRight, isLeft )
-import Data.String.Base64 ( decode, encode, encodeUrl )
-import Data.String.Utils  ( stripChars )
-import Effect             ( Effect )
-import Effect.Console     ( log )
-import Partial.Unsafe     ( unsafePartial )
+import Data.Either                 ( isLeft )
+import Data.String.Base64          ( decode, encode, encodeUrl )
+import Data.String.Base64.Internal ( unsafeFromRight )
+import Data.String.Utils           ( stripChars )
+import Effect                      ( Effect )
+import Effect.Console              ( log )
 import Prelude
-import Test.Assert        ( assert )
-import Test.Input         ( WellFormedInput (..) )
-import Test.QuickCheck    ( Result, (===), quickCheck )
+import Test.Assert                 ( assert )
+import Test.Input                  ( WellFormedInput (..) )
+import Test.QuickCheck             ( Result, (===), quickCheck )
+
 
 testBase64 :: Effect Unit
 testBase64 = do
@@ -22,12 +23,12 @@ testBase64 = do
   log "`btoa` is not available on Node.js"
 
   log "decode"
-  assert $ unsafePartial (fromRight (decode ""))     == ""
-  assert $ unsafePartial (fromRight (decode "YQ==")) == "a"
-  assert $ unsafePartial (fromRight (decode "YQ="))  == "a"
-  assert $ unsafePartial (fromRight (decode "YQ"))   == "a"
-  assert $ unsafePartial (fromRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6")) == "柿くへば鐘が鳴るなり法隆寺"
-  assert $ unsafePartial (fromRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6")) == "柿くへば鐘が鳴るなり法隆寺"
+  assert $ unsafeFromRight (decode "")     == ""
+  assert $ unsafeFromRight (decode "YQ==") == "a"
+  assert $ unsafeFromRight (decode "YQ=")  == "a"
+  assert $ unsafeFromRight (decode "YQ")   == "a"
+  assert $ unsafeFromRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6") == "柿くへば鐘が鳴るなり法隆寺"
+  assert $ unsafeFromRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6") == "柿くへば鐘が鳴るなり法隆寺"
   assert $ isLeft (decode "∀")
 
   log "encode"
@@ -65,7 +66,7 @@ testBase64 = do
   let
     encodeDecodeIdProp :: WellFormedInput -> Result
     encodeDecodeIdProp (WellFormedInput str) =
-      str === unsafePartial (fromRight <<< decode <<< encode $ str)
+      str === (unsafeFromRight <<< decode <<< encode) str
 
   quickCheck encodeDecodeIdProp
 
@@ -73,6 +74,6 @@ testBase64 = do
   let
     encodeUrlDecodeIdProp :: WellFormedInput -> Result
     encodeUrlDecodeIdProp (WellFormedInput str) =
-      str === unsafePartial (fromRight <<< decode <<< encodeUrl $ str)
+      str === (unsafeFromRight <<< decode <<< encodeUrl) str
 
   quickCheck encodeUrlDecodeIdProp

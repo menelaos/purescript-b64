@@ -7,11 +7,12 @@ module Data.String.Base64
   )
 where
 
-import Data.Either                 ( Either (Left, Right), fromRight )
+import Data.Either                 ( Either (Left, Right) )
 import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
 import Data.String.Base64.Internal ( atobIsDefined
                                    , btoaIsDefined
                                    , uint8ArrayToBtoaSafeString
+                                   , unsafeFromRight
                                    , unsafeStringToUint8ArrayOfCharCodes
                                    , toUrlSafe
                                    , toRfc4648
@@ -19,7 +20,6 @@ import Data.String.Base64.Internal ( atobIsDefined
 import Data.TextDecoder            ( decodeUtf8 )
 import Data.TextEncoder            ( encodeUtf8 )
 import Effect.Exception            ( Error )
-import Partial.Unsafe              ( unsafePartial )
 import Prelude
 
 
@@ -62,8 +62,7 @@ encode :: String -> String
 encode str =
   if btoaIsDefined
     then
-      unsafePartial
-        (fromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str))
+      unsafeFromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str)
     else
       encodeNode str
 

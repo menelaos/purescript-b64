@@ -10,6 +10,7 @@ You can edit this file as you like.
     "git://github.com/menelaos/purescript-b64.git"
 , dependencies =
     [ "arraybuffer-types"
+    , "arrays"
     , "assert"
     , "console"
     , "effect"
@@ -25,7 +26,6 @@ You can edit this file as you like.
     , "strings"
     , "stringutils"
     , "unicode"
-    , "unsafe-coerce"
     ]
 , packages =
     ./packages.dhall

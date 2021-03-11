@@ -2,11 +2,11 @@ module Test.Input
   ( WellFormedInput (..) )
 where
 
-import Data.Char.Unicode         ( isPrint )
-import Data.String.Utils         ( filter )
+import Data.Array                ( filter )
+import Data.CodePoint.Unicode    ( isPrint )
+import Data.String.CodePoints    ( fromCodePointArray, toCodePointArray )
 import Prelude
 import Test.QuickCheck.Arbitrary ( class Arbitrary, arbitrary )
-import Unsafe.Coerce             ( unsafeCoerce )
 
 
 -- When UTF8-encoding a string, surrogate code points and other non-characters
@@ -24,9 +24,8 @@ newtype WellFormedInput = WellFormedInput String
 -- out of the first 65536 unicode code points.
 -- See the `Arbitrary` instance for `Char` in `purescript-quickcheck`.
 instance arbWellFormedInput :: Arbitrary WellFormedInput where
-  arbitrary = WellFormedInput <<< filter isPrint' <$> arbitrary
-
--- This hack is necessary as the `filter` function in `purescript-stringutils`
--- iterates over Unicode code points whereas a `Char` is a code unit.
-isPrint' :: String -> Boolean
-isPrint' = isPrint <<< unsafeCoerce
+  arbitrary = WellFormedInput
+            <<< fromCodePointArray
+            <<< filter isPrint
+            <<< toCodePointArray
+            <$> arbitrary

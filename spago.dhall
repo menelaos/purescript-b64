@@ -21,7 +21,6 @@ You can edit this file as you like.
     , "functions"
     , "partial"
     , "prelude"
-    , "psci-support"
     , "quickcheck"
     , "strings"
     , "stringutils"

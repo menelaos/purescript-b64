@@ -117,11 +117,52 @@ let additions =
 -------------------------------
 -}
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.14.5-20220203/packages.dhall
-        sha256:f8905bf5d7ce9d886cf4ef1c5893ab55de0b30c82c2b4137f272d075000fbc50
+      https://github.com/purescript/package-sets/releases/download/psc-0.15.0-20220429/packages.dhall
+        sha256:03c682bff56fc8f9d8c495ffcc6f524cbd3c89fe04778f965265c08757de8c9d
 
 let overrides = {=}
 
-let additions = {=}
+let additions =
+  { stringutils =
+      { dependencies =
+        [ "arrays"
+        , "assert"
+        , "console"
+        , "effect"
+        , "functions"
+        , "integers"
+        , "maybe"
+        , "partial"
+        , "prelude"
+        , "quickcheck"
+        , "strings"
+        , "unsafe-coerce"
+        ]      
+      , repo =
+          "https://github.com/menelaos/purescript-stringutils.git"
+      , version =
+          "51d92cacd8c8102fc4e6137b4f709a2b11ca5186"
+      }
+  , encoding =
+      { dependencies =
+        [ "arraybuffer-types"
+        , "arrays"
+        , "console"
+        , "effect"
+        , "either"
+        , "exceptions"
+        , "functions"
+        , "partial"
+        , "prelude"
+        , "quickcheck"
+        , "strings"
+        , "unicode"
+        ]      
+      , repo =
+          "https://github.com/menelaos/purescript-encoding.git"
+      , version =
+          "a9d1913de736821c133ecd7944a08b2ab07ad774"
+      }
+  }
 
 in  upstream // overrides // additions

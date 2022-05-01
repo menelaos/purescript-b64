@@ -5,3 +5,4 @@ output/
 npm-debug.log
 .spago/
 .psci_modules/
+.psc-ide-port

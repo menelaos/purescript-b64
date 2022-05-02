@@ -26,10 +26,10 @@ testBase64 = do
   assert $ isLeft (decode "∀")
 
   log "encode"
-  log "Tests will be implemented once `Uint8Array` is in instance of `Eq`"
+  log "Tests will be implemented once `Uint8Array` is an instance of `Eq`"
 
   log "encodeUrl"
-  log "Tests will be implemented once `Uint8Array` is in instance of `Eq`"
+  log "Tests will be implemented once `Uint8Array` is an instance of `Eq`"
 
   log "decode <<< encode == id for well-formed input"
   let

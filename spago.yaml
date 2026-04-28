@@ -1,0 +1,23 @@
+package:
+  dependencies:
+    - arraybuffer-types
+    - arrays
+    - assert
+    - console
+    - effect
+    - either
+    - encoding
+    - enums
+    - exceptions
+    - functions
+    - partial
+    - prelude
+    - quickcheck
+    - strings
+    - stringutils
+    - unicode
+  name: b64
+workspace:
+  extraPackages: {}
+  packageSet:
+    registry: 76.2.0

@@ -1,10 +1,6 @@
 package:
   dependencies:
     - arraybuffer-types
-    - arrays
-    - assert
-    - console
-    - effect
     - either
     - encoding
     - enums
@@ -12,11 +8,18 @@ package:
     - functions
     - partial
     - prelude
-    - quickcheck
     - strings
-    - stringutils
-    - unicode
   name: b64
+  test:
+    main: Test.Main
+    dependencies:
+      - arrays
+      - assert
+      - console
+      - effect
+      - quickcheck
+      - stringutils
+      - unicode
 workspace:
   extraPackages: {}
   packageSet:

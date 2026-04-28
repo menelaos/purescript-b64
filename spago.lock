@@ -6,10 +6,6 @@
         "core": {
           "dependencies": [
             "arraybuffer-types",
-            "arrays",
-            "assert",
-            "console",
-            "effect",
             "either",
             "encoding",
             "enums",
@@ -17,14 +13,19 @@
             "functions",
             "partial",
             "prelude",
-            "quickcheck",
-            "strings",
-            "stringutils",
-            "unicode"
+            "strings"
           ]
         },
         "test": {
-          "dependencies": []
+          "dependencies": [
+            "arrays",
+            "assert",
+            "console",
+            "effect",
+            "quickcheck",
+            "stringutils",
+            "unicode"
+          ]
         }
       }
     },

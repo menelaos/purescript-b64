@@ -19,11 +19,13 @@ testBase64 = do
   log "decode"
   assert $ unsafeFromRight (decode "" >>= decodeUtf8)     == ""
   assert $ unsafeFromRight (decode "YQ==" >>= decodeUtf8) == "a"
-  assert $ unsafeFromRight (decode "YQ=" >>= decodeUtf8)  == "a"
   assert $ unsafeFromRight (decode "YQ" >>= decodeUtf8)   == "a"
   assert $ unsafeFromRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6" >>= decodeUtf8) == "柿くへば鐘が鳴るなり法隆寺"
   assert $ unsafeFromRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6" >>= decodeUtf8) == "柿くへば鐘が鳴るなり法隆寺"
-  assert $ isLeft (decode "∀")
+
+  -- Invalid input (see https://infra.spec.whatwg.org/#forgiving-base64-decode)
+  assert $ isLeft (decode "∀")   -- Character not in Base64 alphabet
+  assert $ isLeft (decode "YQ=") -- Invalid padding
 
   log "encode"
   log "Tests will be implemented once `Uint8Array` is an instance of `Eq`"

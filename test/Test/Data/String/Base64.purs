@@ -25,11 +25,13 @@ testBase64 = do
   log "decode"
   assert $ unsafeFromRight (decode "")     == ""
   assert $ unsafeFromRight (decode "YQ==") == "a"
-  assert $ unsafeFromRight (decode "YQ=")  == "a"
   assert $ unsafeFromRight (decode "YQ")   == "a"
   assert $ unsafeFromRight (decode "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6") == "柿くへば鐘が鳴るなり法隆寺"
   assert $ unsafeFromRight (decode "5p-_44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a-6") == "柿くへば鐘が鳴るなり法隆寺"
-  assert $ isLeft (decode "∀")
+
+  -- Invalid input (see https://infra.spec.whatwg.org/#forgiving-base64-decode)
+  assert $ isLeft (decode "∀")   -- Character not in Base64 alphabet
+  assert $ isLeft (decode "YQ=") -- Invalid padding
 
   log "encode"
   let

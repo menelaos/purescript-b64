@@ -3,7 +3,7 @@ module Test.Data.String.Base64
 where
 
 import Data.Either                 ( isLeft )
-import Data.String.Base64          ( decode, encode, encodeUrl )
+import Data.String.Base64          ( atob, btoa, decode, encode, encodeUrl )
 import Data.String.Base64.Internal ( unsafeFromRight )
 import Data.String.Utils           ( stripChars )
 import Effect                      ( Effect )
@@ -17,10 +17,19 @@ import Test.QuickCheck             ( Result, (===), quickCheck )
 testBase64 :: Effect Unit
 testBase64 = do
   log "atob"
-  log "`atob` is not available on Node.js"
+  assert $ unsafeFromRight (atob "")     == ""
+  assert $ unsafeFromRight (atob "YQ==") == "a"
+  assert $ unsafeFromRight (atob "YQ")   == "a" -- "YQ" and "YR" both return "a". See step 9 of
+  assert $ unsafeFromRight (atob "YR")   == "a" -- https://infra.spec.whatwg.org/#forgiving-base64-decode
+
+  -- Invalid input (see https://infra.spec.whatwg.org/#forgiving-base64-decode)
+  assert $ isLeft (decode "∀")   -- Character not in Base64 alphabet
+  assert $ isLeft (decode "YQ=") -- Invalid padding
 
   log "btoa"
-  log "`btoa` is not available on Node.js"
+  assert $ unsafeFromRight (btoa "")  == ""
+  assert $ unsafeFromRight (btoa "a") == "YQ=="
+  assert $ isLeft (btoa "∀") -- Code point outside of 0 .. U+00FF
 
   log "decode"
   assert $ unsafeFromRight (decode "")     == ""

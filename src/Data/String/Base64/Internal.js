@@ -1,6 +1,3 @@
-export const atobIsDefined = typeof atob === "function";
-export const btoaIsDefined = typeof btoa === "function";
-
 // This function converts a `Uint8Array` to a btoa-safe string.
 // It does so by treating each byte as a Unicode code point value and by
 // concatenating the corresponding characters.

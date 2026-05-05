@@ -1,7 +1,5 @@
 module Data.String.Base64.Internal
-  ( atobIsDefined
-  , btoaIsDefined
-  , uint8ArrayToBtoaSafeString
+  ( uint8ArrayToBtoaSafeString
   , unsafeFromRight
   , unsafeStringToUint8ArrayOfCharCodes
   , toUrlSafe
@@ -19,9 +17,6 @@ import Data.String             ( Pattern(Pattern), Replacement(Replacement)
 import Partial.Unsafe          ( unsafeCrashWith )
 import Prelude
 
-
-foreign import atobIsDefined :: Boolean
-foreign import btoaIsDefined :: Boolean
 
 uint8ArrayToBtoaSafeString :: Uint8Array -> String
 uint8ArrayToBtoaSafeString u8 = runFn1 uint8ArrayToBtoaSafeStringImpl u8

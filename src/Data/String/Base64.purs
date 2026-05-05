@@ -8,10 +8,8 @@ module Data.String.Base64
 where
 
 import Data.Either                 ( Either (Left, Right) )
-import Data.Function.Uncurried     ( Fn1, Fn3, runFn1, runFn3 )
-import Data.String.Base64.Internal ( atobIsDefined
-                                   , btoaIsDefined
-                                   , uint8ArrayToBtoaSafeString
+import Data.Function.Uncurried     ( Fn3, runFn3 )
+import Data.String.Base64.Internal ( uint8ArrayToBtoaSafeString
                                    , unsafeFromRight
                                    , unsafeStringToUint8ArrayOfCharCodes
                                    , toUrlSafe
@@ -60,16 +58,7 @@ import Prelude
 -}
 encode :: String -> String
 encode str =
-  if btoaIsDefined
-    then
-      unsafeFromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str)
-    else
-      encodeNode str
-
-encodeNode :: String -> String
-encodeNode s = runFn1 encodeNodeImpl s
-
-foreign import encodeNodeImpl :: Fn1 String String
+  unsafeFromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str)
 
 -- | Encode a `String` to a URL-safe Base64 representation.
 -- |
@@ -120,18 +109,7 @@ foreign import btoaImpl :: Fn3
 -- | ```
 decode :: String -> Either Error String
 decode str =
-  if atobIsDefined
-    then
-      unsafeStringToUint8ArrayOfCharCodes <$> atob (toRfc4648 str)
-        >>= decodeUtf8
-    else
-      runFn3 decodeNodeImpl Left Right (toRfc4648 str)
-
-foreign import decodeNodeImpl :: Fn3
-  (∀ x y. x -> Either x y)
-  (∀ x y. y -> Either x y)
-  String
-  (Either Error String)
+  unsafeStringToUint8ArrayOfCharCodes <$> atob (toRfc4648 str) >>= decodeUtf8
 
 -- | Decode a Base64-encoded `String` via the native `atob` function.
 -- | Returns an `Error` for malformed input strings.

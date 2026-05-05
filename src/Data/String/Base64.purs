@@ -57,8 +57,7 @@ import Prelude
   `btoa` function and results in "4oiAIGE=".
 -}
 encode :: String -> String
-encode str =
-  unsafeFromRight (btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8 $ str)
+encode = unsafeFromRight <<< btoa <<< uint8ArrayToBtoaSafeString <<< encodeUtf8
 
 -- | Encode a `String` to a URL-safe Base64 representation.
 -- |

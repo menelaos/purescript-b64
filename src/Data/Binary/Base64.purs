@@ -26,8 +26,7 @@ import Prelude
 -- | -- "5p+/44GP44G444Gw6ZCY44GM6bO044KL44Gq44KK5rOV6ZqG5a+6"
 -- | ```
 encode :: Uint8Array -> String
-encode uInt8Array =
-  unsafeFromRight (btoa <<< uint8ArrayToBtoaSafeString $ uInt8Array)
+encode = unsafeFromRight <<< btoa <<< uint8ArrayToBtoaSafeString
 
 -- | Encode a `Uint8Array` to a URL-safe Base64 representation.
 -- |
